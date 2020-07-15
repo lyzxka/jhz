@@ -1,0 +1,49 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+group = 'com.zzxka'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    maven {
+        // 阿里云maven库
+        url 'http://maven.aliyun.com/nexus/content/groups/public'
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.projectlombok:lombok'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.freemarker:freemarker:2.3.28'
+    runtimeOnly 'mysql:mysql-connector-java'
+    compile group: 'com.alibaba', name: 'druid', version: '1.1.10'
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.1.2'
+    implementation 'com.baomidou:mybatis-plus-generator:3.1.2'
+    implementation 'com.alibaba:fastjson:1.2.44'
+    // flyway 5.2.1 有个启动报错的bug   版本尽量不要改
+    implementation 'org.flywaydb:flyway-core:5.2.1'
+    implementation 'cn.hutool:hutool-all:4.5.8'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'com.google.guava:guava:27.0-jre'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+test {
+    useJUnitPlatform()
+}
