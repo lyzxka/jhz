@@ -8,4 +8,5 @@ import com.zzxka.jhz.system.entity.User;
  * @description:
  */
 public interface UserService extends IService<User> {
+    org.springframework.security.core.userdetails.User getUser();
 }
