@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zzxka.jhz.system.dao.MenuDao">
+    <select id="getMenusBuRoles" resultType="com.zzxka.jhz.system.entity.Menu">
+        select
+          menu.*
+        from sys_menu as menu
+        left join sys_role_menu as roleMenu on roleMenu.menu_id =menu.id
+        where
+        roleMenu.role_id in
+        <foreach collection="roles" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+    <select id="getMenusBuRoleKeys" resultType="com.zzxka.jhz.system.entity.Menu">
+        select
+        menu.*
+        from sys_menu as menu
+        left join sys_role_menu as roleMenu on roleMenu.menu_id =menu.id
+        left join sys_role as role on role.id =roleMenu.role_id
+        where
+        role.role_key in
+        <foreach collection="roles" item="roleId" open="(" separator="," close=")">
+            '#{roleId}'
+        </foreach>
+    </select>
+</mapper>
