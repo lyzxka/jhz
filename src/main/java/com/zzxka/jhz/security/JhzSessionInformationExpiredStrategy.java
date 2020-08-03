@@ -13,6 +13,6 @@ import java.io.IOException;
 public class JhzSessionInformationExpiredStrategy implements SessionInformationExpiredStrategy {
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException {
-
+        System.out.println("会话管理");
     }
 }

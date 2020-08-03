@@ -33,6 +33,7 @@ public class JhzFilterInvocationSecurityMetadataSource implements FilterInvocati
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl=((FilterInvocation) object).getRequestUrl();
+        System.out.println("验证请求地址:"+requestUrl);
         // 获取当前用户权限
         UserDetails userDetails =(UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
@@ -46,9 +47,11 @@ public class JhzFilterInvocationSecurityMetadataSource implements FilterInvocati
         List<Menu> menuList=menuService.getMenusBuRoleKeys(roles);
         for(Menu menu:menuList){
             if(StringUtils.equals(menu.getUrl(),requestUrl)){
+                System.out.println("创建允许访问权限地址");
                 return SecurityConfig.createList(new String[]{requestUrl});
             }
         }
+        System.out.println("没有找到相应的权限地址");
         return null;
     }
 

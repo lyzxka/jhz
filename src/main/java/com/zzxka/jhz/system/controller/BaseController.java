@@ -3,6 +3,8 @@ package com.zzxka.jhz.system.controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author: zzxka
  * @date: 2020-07-20
@@ -11,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BaseController {
     @GetMapping("/testApi")
-    public void test(){
-
+    public void test(HttpServletResponse response) throws Exception{
+        System.out.println("saiodhjiashi");
+        response.getWriter().println("asdasd");
     }
 }
