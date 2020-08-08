@@ -35,9 +35,12 @@ public class JhzFilterInvocationSecurityMetadataSource implements FilterInvocati
         String requestUrl=((FilterInvocation) object).getRequestUrl();
         System.out.println("验证请求地址:"+requestUrl);
         // 获取当前用户权限
-        UserDetails userDetails =(UserDetails) SecurityContextHolder.getContext()
+        /*UserDetails userDetails =(UserDetails) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal();
+        if(null==userDetails){
+            return SecurityConfig.createList(new String[]{requestUrl});
+        }
         List<GrantedAuthority> grantedAuthorities=(List<GrantedAuthority>) userDetails.getAuthorities();
         String[] roles=new String[grantedAuthorities.size()];
         for(int i=0;i<grantedAuthorities.size();i++){
@@ -50,8 +53,7 @@ public class JhzFilterInvocationSecurityMetadataSource implements FilterInvocati
                 System.out.println("创建允许访问权限地址");
                 return SecurityConfig.createList(new String[]{requestUrl});
             }
-        }
-        System.out.println("没有找到相应的权限地址");
+        }*/
         return null;
     }
 
