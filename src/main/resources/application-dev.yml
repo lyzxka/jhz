@@ -30,6 +30,14 @@ spring:
     schemas: jhz
     # 执行迁移时是否自动调用验证   当你的 版本不符合逻辑 比如 你先执行了 DML 而没有 对应的DDL 会抛出异常
     validate-on-migrate: true
+  rabbitmq:
+    host: 39.105.34.103
+    port: 8672
+    username: zzxkaRabbit
+    password: rabbit1314asd
+    publisher-returns: false
+
+    publisher-confirm-type: none
 # 前端配置
 web:
   back: http://localhost:8081

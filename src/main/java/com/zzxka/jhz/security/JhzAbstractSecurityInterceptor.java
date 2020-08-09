@@ -5,23 +5,53 @@ import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterInvocation;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author: zzxka
  * @date: 2020-07-30
  * @description: 权限拦截器
  */
+@Component
 public class JhzAbstractSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
+
     @Autowired
-    JhzAccessDecisionManager jhzAccessDecisionManager;
+    JhzFilterInvocationSecurityMetadataSource jhzFilterInvocationSecurityMetadataSource;
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("拦截器");
+        SecurityContext context = SecurityContextHolder.getContext();
+        /*if (context.getAuthentication() != null && context.getAuthentication().isAuthenticated()) {
+            System.out.println("被授权了");
+            // do nothing
+        } else {
+            System.out.println("获取token参数");
+            Map<String, String[]> params = request.getParameterMap();
+            if (!params.isEmpty() && params.containsKey("token")) {
+                String token = params.get("token")[0];
+                if (token != null) {
+                    Authentication auth = new JhzTokenAuthentication(token);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+            }
+        }*/
+        Map<String, String[]> params = request.getParameterMap();
+        if (!params.isEmpty() && params.containsKey("token")) {
+            String token = params.get("token")[0];
+            if (token != null) {
+                Authentication auth = new JhzTokenAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+        }
         FilterInvocation fi = new FilterInvocation(request, response, chain);
         invoke(fi);
     }
@@ -31,14 +61,14 @@ public class JhzAbstractSecurityInterceptor extends AbstractSecurityInterceptor 
         return FilterInvocation.class;
     }
 
-    @Override
-    public void setAccessDecisionManager(AccessDecisionManager accessDecisionManager) {
+    @Autowired
+    public void setAccessDecisionManager(JhzAccessDecisionManager jhzAccessDecisionManager) {
         super.setAccessDecisionManager(jhzAccessDecisionManager);
     }
 
     @Override
     public SecurityMetadataSource obtainSecurityMetadataSource() {
-        return new JhzFilterInvocationSecurityMetadataSource();
+        return jhzFilterInvocationSecurityMetadataSource;
     }
 
     private void invoke(FilterInvocation filterInvocation) throws IOException, ServletException {

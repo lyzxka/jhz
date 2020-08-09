@@ -54,7 +54,7 @@ public class JhzFilterInvocationSecurityMetadataSource implements FilterInvocati
                 return SecurityConfig.createList(new String[]{requestUrl});
             }
         }*/
-        return null;
+        return SecurityConfig.createList(new String[]{requestUrl});
     }
 
     @Override
@@ -64,6 +64,6 @@ public class JhzFilterInvocationSecurityMetadataSource implements FilterInvocati
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return false;
+        return true;
     }
 }

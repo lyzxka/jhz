@@ -2,6 +2,7 @@ package com.zzxka.jhz.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +14,10 @@ import java.io.IOException;
  * @date: 2020-07-30
  * @description: 登出成功
  */
+@Component
 public class JhzLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
+        System.out.println("登出成功");
     }
 }

@@ -1,5 +1,7 @@
 package com.zzxka.jhz;
 
+import com.zzxka.jhz.rabbitMq.config.JhzRabbitQueue;
+import com.zzxka.jhz.rabbitMq.producer.JhzProducer;
 import com.zzxka.jhz.system.entity.User;
 import com.zzxka.jhz.system.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,8 @@ class JhzApplicationTests {
     private static final Logger log= LoggerFactory.getLogger(JhzApplicationTests.class);
     @Autowired
     UserService userService;
+    @Autowired
+    private JhzProducer jhzProducer;
 
     @Test
     void contextLoads() {
@@ -23,6 +27,12 @@ class JhzApplicationTests {
         user.setUsername("Admin");
         userService.save(user);
         System.out.println(user.toString());
+    }
+
+    @Test
+    public void testRabbit(){
+        jhzProducer.sendMessage(JhzRabbitQueue.JHZ_TEST_RABBIT_QUEUE,"1111111111");
+        jhzProducer.sendMessage(JhzRabbitQueue.JHZ_TEST_RABBIT_QUEUE,"222222222");
     }
 
 }
