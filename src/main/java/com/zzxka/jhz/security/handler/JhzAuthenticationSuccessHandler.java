@@ -1,5 +1,8 @@
-package com.zzxka.jhz.security;
+package com.zzxka.jhz.security.handler;
 
+import com.zzxka.jhz.common.JhzResponse;
+import com.zzxka.jhz.security.util.JwtTokenUtil;
+import com.zzxka.jhz.system.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -19,5 +22,8 @@ public class JhzAuthenticationSuccessHandler implements AuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         System.out.println("访问有权限");
+        User user=(User)authentication.getPrincipal();
+        String token= JwtTokenUtil.createAccessToken(user);
+        response.getWriter().write(JhzResponse.ok().put("token",token).toString());
     }
 }

@@ -1,5 +1,6 @@
 package com.zzxka.jhz;
 
+import com.zzxka.jhz.common.config.WebSecurityConfig;
 import com.zzxka.jhz.rabbitMq.config.JhzRabbitQueue;
 import com.zzxka.jhz.rabbitMq.producer.JhzProducer;
 import com.zzxka.jhz.system.entity.User;
@@ -9,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootTest
 class JhzApplicationTests {
@@ -17,6 +20,8 @@ class JhzApplicationTests {
     UserService userService;
     @Autowired
     private JhzProducer jhzProducer;
+    @Autowired
+    WebSecurityConfig webSecurityConfig;
 
     @Test
     void contextLoads() {
@@ -25,6 +30,7 @@ class JhzApplicationTests {
         user.setEmail("zzxka@sina.cn");
         user.setLoginName("admin");
         user.setUsername("Admin");
+        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
         userService.save(user);
         System.out.println(user.toString());
     }

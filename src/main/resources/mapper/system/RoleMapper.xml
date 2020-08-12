@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zzxka.jhz.system.dao.RoleDao">
-    <select id="getRolesByUser" parameterType="long" resultType="com.zzxka.jhz.system.entity.Role">
+    <select id="getRolesByUserId" parameterType="long" resultType="com.zzxka.jhz.system.entity.Role">
         select
           role.*
         from sys_role as role

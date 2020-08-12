@@ -1,17 +1,15 @@
-package com.zzxka.jhz.security;
+package com.zzxka.jhz.security.filter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.SecurityMetadataSource;
-import org.springframework.security.access.intercept.InterceptorStatusToken;
+import com.zzxka.jhz.security.JhzTokenAuthentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,19 +17,14 @@ import java.util.Map;
 
 /**
  * @author: zzxka
- * @date: 2020-07-30
- * @description: 权限拦截器
+ * @date: 2020-08-12
+ * @description: JWT接口请求校验拦截器,请求接口时会进入这里验证Token是否合法和过期
  */
-@Component
-public class JhzAbstractSecurityInterceptor extends BasicAuthenticationFilter {
+public class JhzBasicAuthenticationFilter extends BasicAuthenticationFilter {
 
-    @Autowired
-    JhzFilterInvocationSecurityMetadataSource jhzFilterInvocationSecurityMetadataSource;
-
-    public  JhzAbstractSecurityInterceptor(AuthenticationManager authenticationManager){
+    public JhzBasicAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
-
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         System.out.println("拦截器");
@@ -50,16 +43,14 @@ public class JhzAbstractSecurityInterceptor extends BasicAuthenticationFilter {
                 }
             }
         }*/
-        Map<String, String[]> params = request.getParameterMap();
+        /*Map<String, String[]> params = request.getParameterMap();
         if (!params.isEmpty() && params.containsKey("token")) {
             String token = params.get("token")[0];
             if (token != null) {
                 Authentication auth = new JhzTokenAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-        }
+        }*/
         filterChain.doFilter(request, response);
     }
-
-
 }

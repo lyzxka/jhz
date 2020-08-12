@@ -36,7 +36,7 @@ public class JhzUserDetailsService implements UserDetailsService {
             throw new RuntimeException("用户不存在");
         }
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        List<Role> roleList=roleService.getRolesByUser(user.getId());
+        List<Role> roleList=roleService.getRolesByUserId(user.getId());
         roleList.forEach(role -> {
             GrantedAuthority grantedAuthority=new SimpleGrantedAuthority(role.getRoleKey());
             grantedAuthorities.add(grantedAuthority);

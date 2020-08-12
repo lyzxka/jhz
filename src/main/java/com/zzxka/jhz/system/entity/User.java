@@ -1,8 +1,10 @@
 package com.zzxka.jhz.system.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: zzxka
@@ -26,6 +28,8 @@ public class User {
     private Long updateBy;
     private String remarks;
     private Boolean delFlag;
+    @TableField(exist = false)
+    private List<Role> roleList;
 
     public Long getId() {
         return id;
@@ -166,5 +170,13 @@ public class User {
                 ", remarks='" + remarks + '\'' +
                 ", delFlag=" + delFlag +
                 '}';
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 }

@@ -1,4 +1,4 @@
-package com.zzxka.jhz.security;
+package com.zzxka.jhz.security.handler;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

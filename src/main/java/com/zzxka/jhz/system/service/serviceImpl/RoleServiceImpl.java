@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional(rollbackOn = Exception.class)
 public class RoleServiceImpl extends ServiceImpl<RoleDao, Role> implements RoleService {
     @Override
-    public List<Role> getRolesByUser(Long userId){
-        return baseMapper.getRolesByUser(userId);
+    public List<Role> getRolesByUserId(Long userId){
+        return baseMapper.getRolesByUserId(userId);
     }
 }

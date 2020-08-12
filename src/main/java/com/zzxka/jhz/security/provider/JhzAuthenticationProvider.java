@@ -1,4 +1,4 @@
-package com.zzxka.jhz.security;
+package com.zzxka.jhz.security.provider;
 
 import cn.hutool.http.HttpStatus;
 import com.zzxka.jhz.common.JhzException;
@@ -9,11 +9,14 @@ import com.zzxka.jhz.system.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +29,7 @@ import java.util.List;
  * @description:
  */
 @Component
-public class JhzTokenAuthenticationProvider implements AuthenticationProvider {
+public class JhzAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     UserService userService;
@@ -36,29 +39,27 @@ public class JhzTokenAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         System.out.println("进行校验token");
-        if (authentication.isAuthenticated()) {
-            return authentication;
-        }
-
-        // 从 TokenAuthentication 中获取 token
-        String token = authentication.getCredentials().toString();
-        if (StringUtils.isBlank(token)) {
-            return authentication;
-        }
-
-        User user=userService.getById(Long.parseLong(token));
+        // 获取表单输入中返回的用户名
+        String userName = authentication.getName();
+        // 获取表单中输入的密码
+        String password = authentication.getCredentials().toString();
+        System.out.println(userName+"  "+password);
+        User user=userService.getUserByLoginName(userName);
         if(null==user){
-            throw new JhzException(HttpStatus.HTTP_FORBIDDEN,"用户不存在");
+            throw new UsernameNotFoundException("用户不存在");
+        }
+        if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+            throw new BadCredentialsException("密码不正确");
         }
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        List<Role> roleList=roleService.getRolesByUser(user.getId());
+        List<Role> roleList=roleService.getRolesByUserId(user.getId());
         roleList.forEach(role -> {
             GrantedAuthority grantedAuthority=new SimpleGrantedAuthority(role.getRoleKey());
             grantedAuthorities.add(grantedAuthority);
         });
 
         // 返回新的认证信息，带上 token 和反查出的用户信息
-        Authentication auth = new PreAuthenticatedAuthenticationToken(user, token, grantedAuthorities);
+        Authentication auth = new PreAuthenticatedAuthenticationToken(user, password, grantedAuthorities);
         auth.setAuthenticated(true);
         return auth;
     }

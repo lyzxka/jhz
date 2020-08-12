@@ -20,6 +20,7 @@ public class JhzAccessDecisionManager implements AccessDecisionManager {
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         System.out.println("访问决策");
         if(null==configAttributes){
+            System.out.println("访问决策空的");
             return ;
         }
 
