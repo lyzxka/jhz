@@ -40,7 +40,7 @@ public class JhzAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         System.out.println("进行校验token");
         // 获取表单输入中返回的用户名
-        String userName = authentication.getName();
+        String userName =authentication.getName();
         // 获取表单中输入的密码
         String password = authentication.getCredentials().toString();
         System.out.println(userName+"  "+password);

@@ -12,6 +12,6 @@ import java.util.List;
  */
 public interface MenuService extends IService<Menu> {
 
-    List<Menu> getMenusByRoles(Long[] roles);
-    List<Menu> getMenusBuRoleKeys(String[] roles);
+    List<Menu> getMenusByRoles(List<Long> roles);
+    List<Menu> getMenusByRoleKeys(List<String> roles);
 }

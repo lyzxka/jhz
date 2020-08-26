@@ -18,12 +18,12 @@ import java.util.List;
 @Transactional(rollbackOn = Exception.class)
 public class MenuServiceImpl extends ServiceImpl<MenuDao, Menu> implements MenuService {
     @Override
-    public List<Menu> getMenusByRoles(Long[] roles) {
+    public List<Menu> getMenusByRoles(List<Long> roles) {
         return baseMapper.getMenusBuRoles(roles);
     }
 
     @Override
-    public List<Menu> getMenusBuRoleKeys(String[] roles) {
-        return baseMapper.getMenusBuRoleKeys(roles);
+    public List<Menu> getMenusByRoleKeys(List<String> roles) {
+        return baseMapper.getMenusByRoleKeys(roles);
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.zzxka.jhz.system.dao.MenuDao">
-    <select id="getMenusBuRoles" resultType="com.zzxka.jhz.system.entity.Menu">
+    <select id="getMenusBuRoles" resultType="com.zzxka.jhz.system.entity.Menu"  parameterType="long">
         select
           menu.*
         from sys_menu as menu
@@ -12,7 +12,7 @@
             #{roleId}
         </foreach>
     </select>
-    <select id="getMenusBuRoleKeys" resultType="com.zzxka.jhz.system.entity.Menu">
+    <select id="getMenusByRoleKeys" resultType="com.zzxka.jhz.system.entity.Menu" parameterType="java.util.List">
         select
         menu.*
         from sys_menu as menu
@@ -20,8 +20,8 @@
         left join sys_role as role on role.id =roleMenu.role_id
         where
         role.role_key in
-        <foreach collection="roles" item="roleId" open="(" separator="," close=")">
-            '#{roleId}'
+        <foreach collection="roles" item="roleId" open="("  close=")" separator="," index="index">
+            #{roleId}
         </foreach>
     </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.zzxka.jhz.system.controller;
 import com.zzxka.jhz.rabbitMq.config.JhzRabbitQueue;
 import com.zzxka.jhz.rabbitMq.producer.JhzProducer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date: 2020-07-20
  * @description:
  */
+@CrossOrigin
 @RestController
 public class BaseController {
     @Autowired

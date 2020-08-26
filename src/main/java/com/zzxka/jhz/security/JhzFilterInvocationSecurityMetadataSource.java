@@ -14,6 +14,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,25 +36,18 @@ public class JhzFilterInvocationSecurityMetadataSource implements FilterInvocati
         String requestUrl=((FilterInvocation) object).getRequestUrl();
         System.out.println("验证请求地址:"+requestUrl);
         // 获取当前用户权限
-        /*UserDetails userDetails =(UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
-        if(null==userDetails){
-            return SecurityConfig.createList(new String[]{requestUrl});
-        }
-        List<GrantedAuthority> grantedAuthorities=(List<GrantedAuthority>) userDetails.getAuthorities();
-        String[] roles=new String[grantedAuthorities.size()];
+        List<GrantedAuthority> grantedAuthorities=(List<GrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        List<String> roles=new ArrayList<>();
         for(int i=0;i<grantedAuthorities.size();i++){
-            GrantedAuthority authority=grantedAuthorities.get(i);
-            roles[i]=authority.getAuthority();
+            roles.add(grantedAuthorities.get(i).getAuthority());
         }
-        List<Menu> menuList=menuService.getMenusBuRoleKeys(roles);
+        List<Menu> menuList=menuService.getMenusByRoleKeys(roles);
         for(Menu menu:menuList){
             if(StringUtils.equals(menu.getUrl(),requestUrl)){
                 System.out.println("创建允许访问权限地址");
                 return SecurityConfig.createList(new String[]{requestUrl});
             }
-        }*/
+        }
         return SecurityConfig.createList(new String[]{requestUrl});
     }
 

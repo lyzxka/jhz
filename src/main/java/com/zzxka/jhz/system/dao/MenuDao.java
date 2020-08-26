@@ -3,6 +3,7 @@ package com.zzxka.jhz.system.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zzxka.jhz.system.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,6 +14,6 @@ import java.util.List;
  */
 @Mapper
 public interface MenuDao extends BaseMapper<Menu> {
-    List<Menu> getMenusBuRoles(Long[] roles);
-    List<Menu> getMenusBuRoleKeys(String[] roles);
+    List<Menu> getMenusBuRoles(@Param("roles") List<Long> roles);
+    List<Menu> getMenusByRoleKeys(@Param("roles")List<String> roles);
 }
